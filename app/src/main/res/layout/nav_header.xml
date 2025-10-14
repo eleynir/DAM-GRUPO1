@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="192dp"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="?attr/colorSurfaceVariant">
+
+    <ImageView
+        android:id="@+id/ivAvatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ic_person"
+        android:background="@drawable/elipse"
+        android:padding="10dp"
+        android:contentDescription="Avatar" />
+
+    <TextView
+        android:id="@+id/tvNombreHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Usuario"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tvCorreoHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="usuario@correo.com"
+        android:textSize="14sp"
+        android:layout_marginTop="2dp"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+
+    <TextView
+        android:id="@+id/tvRolHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Postulante"
+        android:textSize="13sp"
+        android:textStyle="italic"
+        android:layout_marginTop="2dp"
+        android:textColor="?attr/colorPrimary" />
+</LinearLayout>
