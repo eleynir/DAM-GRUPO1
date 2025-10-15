@@ -108,45 +108,37 @@
 
 
         fun validarCampos() {
-            val correo = tietCorreo.text.toString().trim()
+            val usuarioInput = tietCorreo.text.toString().trim()
             val clave = tietClave.text.toString().trim()
-            var error : Boolean = false
-            if (correo.isEmpty()) {
+            var error = false
+
+            if (usuarioInput.isEmpty()) {
                 error = true
-                tilCorreo.error = "Ingrese un correo"
-            } else {
-                tilCorreo.error = null
-            }
+                tilCorreo.error = "Ingrese un usuario"
+            } else tilCorreo.error = null
+
             if (clave.isEmpty()) {
                 error = true
-                tilClave.error="Ingrese una contraseña"
-            } else {
-                tilClave.error=null
-            }
-            if (!error)  {
-                var usuario : Usuario?= null
-      //          for (i in 0 until listaUsuarios.size) {
-       //             if (listaUsuarios[i].correo == (correo + "@cibertec.edu.pe") && listaUsuarios[i].clave == clave) {
-       //               usuario = listaUsuarios[i]
-      //         }
-      //    }
+                tilClave.error = "Ingrese una contraseña"
+            } else tilClave.error = null
 
-                for (u in listaUsuarios) {
-                    if (u.correo == (correo + "@cibertec.edu.pe") && u.clave == clave){
-                        usuario = u
-                    }
-                }
-                if (usuario != null) {
-                    val prefs = getSharedPreferences("user", MODE_PRIVATE)
-                    prefs.edit()
-                        .putString("name", usuario?.nombre ?: "Usuario")
-                        .putString("email", usuario?.correo ?: "correo@dominio.com")
-                        .apply()
-                    startActivity(Intent(this, HomeActivity::class.java))
-                    Toast.makeText(this, "Bienvenido ${usuario.nombre}", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
-                }
+            if (error) return
+
+            val correoCompleto = "$usuarioInput@cibertec.edu.pe"
+            val dao = com.example.bolsatrabajoapp.data.UsuarioDAO(this)
+            val usuario = dao.login(correoCompleto, clave)
+
+            if (usuario != null) {
+                val prefs = getSharedPreferences("user", MODE_PRIVATE)
+                prefs.edit()
+                    .putString("name", "${usuario.nombres} ${usuario.apellidos}")
+                    .putString("email", usuario.correo)
+                    .putString("rol", usuario.rol)
+                    .apply()
+                startActivity(Intent(this, HomeActivity::class.java))
+                Toast.makeText(this, "Bienvenido ${usuario.nombres}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
             }
         }
     }

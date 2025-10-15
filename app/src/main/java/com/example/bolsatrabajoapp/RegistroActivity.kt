@@ -89,44 +89,76 @@ class RegistroActivity : AppCompatActivity() {
 
         btnEnviar.setOnClickListener {
             if (validate()) {
-                val nombre = tietNombres.text.toString().trim()
+                val nombre    = tietNombres.text.toString().trim()
                 val apellidos = tietApellidos.text.toString().trim()
-                val correo = tietCorreo.text.toString().trim()
-                val rol = spRol.selectedItem.toString().uppercase()
-                val telefono = tietTelefono.text.toString().trim()
-                val edad = tietEdad.text.toString().toIntOrNull()
-                val ruc = tietRUC.text.toString().trim().ifEmpty { null }
-                val razon = tietRazonSocial.text.toString().trim().ifEmpty { null }
-                val resumen = tietResumenCV.text.toString().trim().ifEmpty { null }
+                val correo    = tietCorreo.text.toString().trim()
+                val telefono  = tietTelefono.text.toString().trim().ifEmpty { null }
+                val edad      = tietEdad.text.toString().toIntOrNull()
+                val clave     = tietClave.text.toString()
 
+                val rolUi = spRol.selectedItem.toString()
+                val rolDb = if (rolUi.equals("empresa", true)) "EMPRESA" else "POSTULANTE"
 
-                val prefs = getSharedPreferences("user", MODE_PRIVATE)
-                prefs.edit()
-                    .putString("name", "$nombre $apellidos")
-                    .putString("email", correo)
-                    .putString("rol", rol)
-                    .apply()
+                val ruc       = tietRUC.text.toString().trim().ifEmpty { null }
+                val razon     = tietRazonSocial.text.toString().trim().ifEmpty { null }
+                val resumenCV = tietResumenCV.text.toString().trim().ifEmpty { null }
 
-                // TODO: aquí se debe persistir en DB  -> Actividad .
+                val u = com.example.bolsatrabajoapp.entity.Usuario(
+                    nombres   = nombre,
+                    apellidos = apellidos,
+                    correo    = correo,
+                    clave     = clave,
+                    edad      = edad,
+                    celular   = telefono,
+                    sexo      = null,
+                    rol       = rolDb
+                )
 
-                Toast.makeText(this, "Registro guardado (mock). Avanzando a Home.", Toast.LENGTH_SHORT).show()
+                val dao = com.example.bolsatrabajoapp.data.UsuarioDAO(this)
+                if (dao.existeCorreo(correo)) {
+                    Toast.makeText(this, "El correo ya está registrado", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
 
+                val id = dao.insertar(
+                    u,
+                    ruc        = if (rolDb == "EMPRESA") ruc else null,
+                    razonSocial= if (rolDb == "EMPRESA") razon else null,
+                    resumenCV  = if (rolDb == "POSTULANTE") resumenCV else null
+                )
 
-                startActivity(Intent(this, HomeActivity::class.java))
-                finish()
+                if (id > 0) {
+                    // guarda en prefs lo básico para el header y entra a Home
+                    val prefs = getSharedPreferences("user", MODE_PRIVATE)
+                    prefs.edit()
+                        .putString("name", "$nombre $apellidos")
+                        .putString("email", correo)
+                        .putString("rol", rolDb)
+                        .apply()
+
+                    Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(this, "No se pudo registrar. Intenta de nuevo.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
-
         tvRegreso.setOnClickListener {
             finish()
         }
+    }
+
+    private fun correoConDominio(raw: String): String {
+        val t = raw.trim()
+        return if (t.contains("@")) t else "$t@cibertec.edu.pe"
     }
 
     private fun validate(): Boolean {
         var ok = true
 
         val nombre = tietNombres.text.toString().trim()
-        val correo = tietCorreo.text.toString().trim()
+        val correo = correoConDominio(tietCorreo.text.toString())
         val clave = tietClave.text.toString()
         val clave2 = tietClaveConfirm.text.toString()
 

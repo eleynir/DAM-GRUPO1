@@ -40,8 +40,21 @@ abstract class BaseDrawerActivity : AppCompatActivity() {
 
         val header = nav.getHeaderView(0)
         val prefs = getSharedPreferences("user", MODE_PRIVATE)
-        header.findViewById<TextView>(R.id.tvNombreHeader).text = prefs.getString("name", "Usuario")
-        header.findViewById<TextView>(R.id.tvCorreoHeader).text = prefs.getString("email", "correo@dominio.com")
+
+        val name = prefs.getString("name", "Usuario")
+        val email = prefs.getString("email", "correo@dominio.com")
+        val rol   = prefs.getString("rol", "POSTULANTE") ?: "POSTULANTE"
+
+        header.findViewById<TextView>(R.id.tvNombreHeader).text = name
+        header.findViewById<TextView>(R.id.tvCorreoHeader).text = email
+        header.findViewById<TextView>(R.id.tvRolHeader).text =
+            if (rol == "EMPRESA") "Empresa" else "Postulante"
+
+        val menu = nav.menu
+        menu.findItem(R.id.nav_publicar)?.isVisible = (rol == "EMPRESA")
+
+        menu.findItem(R.id.nav_listado)?.isVisible = true
+
 
         val toggle = ActionBarDrawerToggle(this, drawer, toolbar, R.string.app_name, R.string.app_name)
         drawer.addDrawerListener(toggle)
