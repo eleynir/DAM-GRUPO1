@@ -1,85 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Cabecera -->
-        <com.google.android.material.card.MaterialCardView
+        <!-- Header con título y empresa -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            android:padding="16dp">
+            android:orientation="vertical"
+            android:background="@color/purple_50"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvTituloDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Título del Puesto"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/purple_800" />
+
+            <TextView
+                android:id="@+id/tvEmpresaDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre Empresa"
+                android:textSize="18sp"
+                android:textColor="@color/purple_500"
+                android:layout_marginTop="4dp" />
+
+        </LinearLayout>
+
+        <!-- Información rápida -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/tvTitulo"
+                <!-- Fila 1: Salario y Modalidad -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Título de la oferta"
-                    android:textStyle="bold"
-                    android:textSize="20sp" />
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp">
 
-                <TextView
-                    android:id="@+id/tvEmpresa"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Salario"
+                            android:textSize="12sp"
+                            android:textColor="@color/gray" />
+
+                        <TextView
+                            android:id="@+id/tvSalarioDetalle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="S/ 0.00 - S/ 0.00"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/green" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Modalidad"
+                            android:textSize="12sp"
+                            android:textColor="@color/gray" />
+
+                        <TextView
+                            android:id="@+id/tvModalidadDetalle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Modalidad"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Fila 2: Ubicación y Tipo -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Empresa"
-                    android:layout_marginTop="4dp" />
+                    android:orientation="horizontal">
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipsInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:singleLine="true">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipModalidad"
-                        style="@style/Widget.Material3.Chip.Assist.Elevated"
-                        android:text="Remoto" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ubicación"
+                            android:textSize="12sp"
+                            android:textColor="@color/gray" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipSalario"
-                        style="@style/Widget.Material3.Chip.Assist.Elevated"
-                        android:text="S/ 0.00" />
-                </com.google.android.material.chip.ChipGroup>
+                        <TextView
+                            android:id="@+id/tvUbicacionDetalle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Ubicación"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tipo"
+                            android:textSize="12sp"
+                            android:textColor="@color/gray" />
+
+                        <TextView
+                            android:id="@+id/tvTipoDetalle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Tipo"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/black" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+
+        </androidx.cardview.widget.CardView>
 
         <!-- Descripción -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Descripción del puesto"
+            android:textSize="18sp"
             android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp"/>
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
 
         <TextView
-            android:id="@+id/tvDescripcion"
+            android:id="@+id/tvDescripcionDetalle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(pendiente)"
-            android:layout_marginTop="4dp"/>
+            android:text="Descripción..."
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="24dp" />
 
-        <!-- Botón -->
-        <com.google.android.material.button.MaterialButton
+        <!-- Detalles completos -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detalles adicionales"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tvDetalleCompleto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detalles..."
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Botón Postular -->
+        <Button
             android:id="@+id/btnPostular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Postular"
-            android:layout_marginTop="20dp"/>
+            android:text="Postular a esta oferta"
+            android:backgroundTint="@color/green"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="32dp" />
+
     </LinearLayout>
 </ScrollView>

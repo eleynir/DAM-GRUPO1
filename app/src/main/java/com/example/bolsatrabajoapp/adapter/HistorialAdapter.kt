@@ -27,10 +27,10 @@ class HistorialAdapter (val listaOfertas : List<Oferta>) : RecyclerView.Adapter<
         val empresa = oferta.empresa
         val titulo = oferta.titulo
         val sueldo = oferta.salario_min
-        val iconEmpresa = oferta.iconEmpresa
+        val iconEmpresa = oferta.icon_emp
         holder.tvEmpresa.text = empresa
         holder.tvTitulo.text = titulo
-        holder.tvSueldo.text = "S/.$sueldo"
+//        holder.tvSueldo.text = "S/.$sueldo"
         // holder.iconEmpresa.text = iconEmpresa
     }
 
@@ -41,8 +41,8 @@ class HistorialAdapter (val listaOfertas : List<Oferta>) : RecyclerView.Adapter<
     inner class HistorialAdapterViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val tvEmpresa: TextView = itemView.findViewById(R.id.tvEmpresa)
         val tvTitulo : TextView = itemView.findViewById(R.id.tvTitulo)
-        val tvSueldo : TextView = itemView.findViewById(R.id.tvSueldo)
-        val iconEmpresa : ImageView = itemView.findViewById(R.id.iconEmpresa)
+//        val tvSueldo : TextView = itemView.findViewById(R.id.tvSueldo)
+//        val iconEmpresa : ImageView = itemView.findViewById(R.id.iconEmpresa)
 
     }
 }

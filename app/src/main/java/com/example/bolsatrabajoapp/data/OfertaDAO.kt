@@ -2,48 +2,47 @@ package com.example.bolsatrabajoapp.data
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
+import android.database.sqlite.SQLiteDatabase
 import com.example.bolsatrabajoapp.entity.Oferta
-import kotlin.String
-
 
 class OfertaDAO(context: Context) {
-    private val db = AppDataBaseHelper(context)
 
     private val dbHelper = AppDataBaseHelper(context)
 
-    private fun insertar(oferta : Oferta) : Long {
-        val db = dbHelper.writableDatabase
-        val valores = ContentValues().apply {
+    fun insertar(oferta: Oferta): Long {
+        val db: SQLiteDatabase = dbHelper.writableDatabase
+        val values = ContentValues().apply {
+            put("id_empresa", 1) // ⚠️ Cambia esto si manejas empresas reales con sesión
+            put("empresa_nombre", oferta.empresa)
             put("titulo", oferta.titulo)
-            put("empresa", oferta.empresa)
             put("descripcion", oferta.descripcion)
             put("salario_min", oferta.salario_min)
             put("salario_max", oferta.salario_max)
-            put("modalidad", oferta.modalidad)
-            put("tipo", oferta.tipo)
+            put("modalidad", oferta.modalidad.uppercase())
+            put("tipo", oferta.tipo.uppercase())
             put("ubicacion", oferta.ubicacion)
             put("categoria", oferta.categoria)
-            put("vigente",oferta.vigente)
-            put("detalle",oferta.detalle)
-            put("icon_emp",oferta.iconEmpresa)
+            put("vigente", oferta.vigente)
+            put("detalle", oferta.detalle)
+            put("icon_empresa", oferta.icon_emp)
         }
-        return db.insert("oferta",null, valores)
+
+        val id = db.insert("oferta", null, values)
+        db.close()
+        return id
     }
 
-    private fun obtenerOferta(idOferta: Int) : List<Oferta>{
-        val db = dbHelper.readableDatabase
+    fun listar(): List<Oferta> {
         val lista = mutableListOf<Oferta>()
-        val cursor : Cursor = db.rawQuery(
-            "SELECT * FROM oferta WHERE id_oferta = ?",
-            arrayOf(idOferta.toString())
-        )
-        while (cursor.moveToNext()) {
-            lista.add(
-                Oferta(
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM oferta", null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                val oferta = Oferta(
                     idOferta = cursor.getInt(cursor.getColumnIndexOrThrow("id_oferta")),
                     titulo = cursor.getString(cursor.getColumnIndexOrThrow("titulo")),
-                    empresa = cursor.getString(cursor.getColumnIndexOrThrow("id_empresa")),
+                    empresa = cursor.getString(cursor.getColumnIndexOrThrow("empresa_nombre")),
                     descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
                     salario_min = cursor.getDouble(cursor.getColumnIndexOrThrow("salario_min")),
                     salario_max = cursor.getDouble(cursor.getColumnIndexOrThrow("salario_max")),
@@ -53,13 +52,21 @@ class OfertaDAO(context: Context) {
                     categoria = cursor.getInt(cursor.getColumnIndexOrThrow("categoria")),
                     vigente = cursor.getInt(cursor.getColumnIndexOrThrow("vigente")),
                     detalle = cursor.getString(cursor.getColumnIndexOrThrow("detalle")),
-                    iconEmpresa = cursor.getString(cursor.getColumnIndexOrThrow("icon_empresa")),
+                    icon_emp = cursor.getString(cursor.getColumnIndexOrThrow("icon_empresa"))
                 )
-            )
+                lista.add(oferta)
+            } while (cursor.moveToNext())
         }
+
         cursor.close()
         db.close()
         return lista
     }
-}
 
+    fun eliminar(id: Int): Int {
+        val db = dbHelper.writableDatabase
+        val filas = db.delete("oferta", "id_oferta = ?", arrayOf(id.toString()))
+        db.close()
+        return filas
+    }
+}

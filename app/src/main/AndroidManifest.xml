@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BolsaTrabajoApp">
         <activity
+            android:name=".AgregarCategoriaActivity"
+            android:exported="false" />
+        <activity
             android:name=".PublicarOfertaActivity"
             android:exported="false"
             android:theme="@style/Theme.BolsaTrabajoApp" />
@@ -30,11 +33,8 @@
         <activity
             android:name=".RegistroActivity"
             android:exported="false"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            />
-        <activity
-            android:name=".PerfilActivity"
-            />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".PerfilActivity" />
         <activity
             android:name=".AccesoActivity"
             android:exported="true">

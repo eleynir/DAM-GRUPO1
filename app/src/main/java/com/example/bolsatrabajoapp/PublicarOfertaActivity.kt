@@ -1,46 +1,58 @@
 package com.example.bolsatrabajoapp
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+import com.example.bolsatrabajoapp.data.AppDataBaseHelper
 import com.example.bolsatrabajoapp.databinding.ActivityPublicarOfertaBinding
+import com.example.bolsatrabajoapp.entity.Oferta
 
-class PublicarOfertaActivity : BaseDrawerActivity() {
+class PublicarOfertaActivity : AppCompatActivity() {// ... (Eliminar las declaraciones individuales si usas View Binding)
+private lateinit var binding: ActivityPublicarOfertaBinding
 
+    // La vinculación de vistas debe ser:
+    private lateinit var etEmpresa: AutoCompleteTextView // Usar AutoCompleteTextView
+    private lateinit var etTipo: AutoCompleteTextView     // Usar AutoCompleteTextView
+    //...
 
-    override fun getLayoutResId() = R.layout.activity_publicar_oferta
-    override fun navSelectedItemId() = R.id.nav_publicar
-    override fun screenTitle() = "Publicar oferta"
+    // ... (código dentro de onCreate)
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityPublicarOfertaBinding
+    private fun configurarSpinners() {
+        val modalidades = listOf("Presencial", "Remoto", "Híbrido")
+        val tipos = listOf("Tiempo completo", "Medio tiempo", "Prácticas")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        // 💡 1. Crear el adaptador usando el layout para Dropdown Items
+        val adapterModalidad = ArrayAdapter(this, R.layout.item_oferta, modalidades)
+        val adapterTipo = ArrayAdapter(this, R.layout.item_oferta, tipos)
 
-        binding = ActivityPublicarOfertaBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        // 💡 2. Asignar el adaptador al AutoCompleteTextView
+        binding.spModalidad.setAdapter(adapterModalidad)
+        binding.spTipo.setAdapter(adapterTipo)
 
-//        setSupportActionBar(binding.toolbar)
-//
-//        val navController = findNavController(R.id.nav_host_fragment_content_publicar_oferta)
-//        appBarConfiguration = AppBarConfiguration(navController.graph)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-//
-//        binding.fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null)
-//                .setAnchorView(R.id.fab).show()
-//        }
+        // Nota: Con AutoCompleteTextView, la selección inicial no es automática como en Spinner.
+        // Si necesitas una selección por defecto, puedes hacerlo:
+        // binding.spModalidad.setText(modalidades[0], false)
     }
 
- //   override fun onSupportNavigateUp(): Boolean {
-//        val navController = findNavController(R.id.nav_host_fragment_content_publicar_oferta)
-//        return navController.navigateUp(appBarConfiguration)
-//                || super.onSupportNavigateUp()
-//    }
+    private fun publicarOferta() {
+        // ... (Validaciones)
+
+        // 💡 3. Obtener el texto seleccionado (ya no es selectedItem)
+        val modalidad = binding.spModalidad.text.toString()
+        val tipo = binding.spTipo.text.toString()
+
+        // ... (el resto del código se mantiene)
+    }
+
+    // ... (limpiarCampos)
+
+    private fun limpiarCampos() {
+        binding.apply {
+            // ... otros campos
+            spModalidad.setText("", false) // Limpiar texto del dropdown
+            spTipo.setText("", false)
+        }
+    }
 }
