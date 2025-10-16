@@ -8,9 +8,39 @@ import kotlin.String
 
 
 class OfertaDAO(context: Context) {
-    private val db = AppDataBaseHelper(context)
 
     private val dbHelper = AppDataBaseHelper(context)
+
+    fun obtenerTodas() : List<Oferta> {
+        val db = dbHelper.readableDatabase
+        val lista = mutableListOf<Oferta>()
+        val cursor: Cursor = db.rawQuery("SELECT*FROM oferta", null)
+
+        while (cursor.moveToNext()) {
+            lista.add(
+                Oferta(
+                    idOferta = cursor.getInt(cursor.getColumnIndexOrThrow("id_oferta")),
+                    titulo = cursor.getString(cursor.getColumnIndexOrThrow("titulo")),
+                    empresa = cursor.getString(cursor.getColumnIndexOrThrow("id_empresa")),
+                    descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
+                    salario_min = cursor.getDouble(cursor.getColumnIndexOrThrow("salario_min")),
+                    salario_max = cursor.getDouble(cursor.getColumnIndexOrThrow("salario_max")),
+                    modalidad = cursor.getString(cursor.getColumnIndexOrThrow("modalidad")),
+                    tipo = cursor.getString(cursor.getColumnIndexOrThrow("tipo")),
+                    ubicacion = cursor.getString(cursor.getColumnIndexOrThrow("ubicacion")),
+                    categoria = cursor.getInt(cursor.getColumnIndexOrThrow("categoria")),
+                    vigente = cursor.getInt(cursor.getColumnIndexOrThrow("vigente")),
+                    detalle = cursor.getString(cursor.getColumnIndexOrThrow("detalle")),
+                    iconEmpresa = cursor.getString(cursor.getColumnIndexOrThrow("icon_empresa")),
+                )
+            )
+        }
+        cursor.close()
+        db.close()
+        return lista
+    }
+
+
 
     private fun insertar(oferta : Oferta) : Long {
         val db = dbHelper.writableDatabase
@@ -31,7 +61,7 @@ class OfertaDAO(context: Context) {
         return db.insert("oferta",null, valores)
     }
 
-    private fun obtenerOferta(idOferta: Int) : List<Oferta>{
+    fun obtenerOferta(idOferta: Int) : List<Oferta>{
         val db = dbHelper.readableDatabase
         val lista = mutableListOf<Oferta>()
         val cursor : Cursor = db.rawQuery(
