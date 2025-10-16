@@ -1,5 +1,6 @@
 package com.example.bolsatrabajoapp
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -39,7 +40,6 @@ class RegistroActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_registro)
 
         tietNombres = findViewById(R.id.tietNombres)
@@ -91,7 +91,7 @@ class RegistroActivity : AppCompatActivity() {
             if (validate()) {
                 val nombre    = tietNombres.text.toString().trim()
                 val apellidos = tietApellidos.text.toString().trim()
-                val correo    = tietCorreo.text.toString().trim()
+                val correo    = normalizarCorreo(tietCorreo.text.toString())
                 val telefono  = tietTelefono.text.toString().trim().ifEmpty { null }
                 val edad      = tietEdad.text.toString().toIntOrNull()
                 val clave     = tietClave.text.toString()
@@ -149,16 +149,13 @@ class RegistroActivity : AppCompatActivity() {
         }
     }
 
-    private fun correoConDominio(raw: String): String {
-        val t = raw.trim()
-        return if (t.contains("@")) t else "$t@cibertec.edu.pe"
-    }
+
 
     private fun validate(): Boolean {
         var ok = true
 
         val nombre = tietNombres.text.toString().trim()
-        val correo = correoConDominio(tietCorreo.text.toString())
+        val correo = normalizarCorreo(tietCorreo.text.toString())
         val clave = tietClave.text.toString()
         val clave2 = tietClaveConfirm.text.toString()
 
