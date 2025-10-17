@@ -4,8 +4,14 @@ import android.content.ContentValues
 import android.content.Context
 import com.example.bolsatrabajoapp.entity.Usuario
 
+
+
+
+
 class UsuarioDAO(context: Context) {
     private val helper = AppDataBaseHelper(context)
+
+
 
     // Acá se registrará al usuario + sus datos extra según rol. Devolverá id del usuario o -1 si falló.
     fun insertar(
@@ -95,4 +101,6 @@ class UsuarioDAO(context: Context) {
             arrayOf(correo)
         ).use { c -> return c.moveToFirst() }
     }
+
+
 }

@@ -36,27 +36,6 @@
         private lateinit var tietClave : TextInputEditText
         private lateinit var ivInternet : ImageView
 
-        private val listaUsuarios = mutableListOf(
-            Usuario(
-                idUsuario = 1,
-                nombres = "José Vidal",
-                apellidos = "Aquije Quintero",
-                correo = "joseaquije2@cibertec.edu.pe",
-                clave = "01234",
-                edad = 21,
-                rol = "POSTULANTE"
-            ),
-            Usuario(
-                idUsuario = 2,
-                nombres = "Test",
-                apellidos = "Ape Test",
-                correo = "testmail@cibertec.edu.pe",
-                clave = "5678",
-                edad = 19,
-                rol = "EMPRESA"
-            )
-        )
-
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             enableEdgeToEdge()
@@ -124,7 +103,7 @@
 
             if (error) return
 
-            val correoCompleto = "$usuarioInput@cibertec.edu.pe"
+            val correoCompleto = normalizarCorreo(usuarioInput)
             val dao = com.example.bolsatrabajoapp.data.UsuarioDAO(this)
             val usuario = dao.login(correoCompleto, clave)
 
