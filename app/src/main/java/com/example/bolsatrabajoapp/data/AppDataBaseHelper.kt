@@ -2,6 +2,7 @@ package com.example.bolsatrabajoapp.data
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.example.bolsatrabajoapp.entity.Oferta
@@ -12,14 +13,15 @@ private const val DB_VERSION = 1
 class AppDataBaseHelper(context: Context) :
     SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
 
-    // ... (onConfigure, onCreate, onUpgrade se mantienen sin cambios)
-
     override fun onConfigure(db: SQLiteDatabase) {
         db.setForeignKeyConstraintsEnabled(true)
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        // 1) Usuarios
+        // ------------------------------------
+        // CREACIÓN DE TABLAS (Mismo código de DDL)
+        // ------------------------------------
+
         db.execSQL("""
             CREATE TABLE usuario (
                 id_usuario INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +29,6 @@ class AppDataBaseHelper(context: Context) :
                 clave TEXT NOT NULL,
                 nombres TEXT NOT NULL,
                 apellidos TEXT NOT NULL,
-                dni TEXT,
                 celular TEXT,
                 sexo TEXT,
                 edad INTEGER,
@@ -36,7 +37,6 @@ class AppDataBaseHelper(context: Context) :
             );
         """)
 
-        // 2) Empresa
         db.execSQL("""
             CREATE TABLE empresa (
                 id_empresa INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,7 +50,6 @@ class AppDataBaseHelper(context: Context) :
             );
         """)
 
-        // 3) Postulante
         db.execSQL("""
             CREATE TABLE postulante (
                 id_postulante INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -62,7 +61,6 @@ class AppDataBaseHelper(context: Context) :
             );
         """)
 
-        // 4) Categoría
         db.execSQL("""
             CREATE TABLE categoria (
                 id_categoria INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -70,7 +68,6 @@ class AppDataBaseHelper(context: Context) :
             );
         """)
 
-        // 5) Oferta (adaptada para coincidir con OfertaDAO y data class)
         db.execSQL("""
             CREATE TABLE oferta (
                 id_oferta INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -91,7 +88,6 @@ class AppDataBaseHelper(context: Context) :
             );
         """)
 
-        // 6) Postulaciones
         db.execSQL("""
             CREATE TABLE postulacion (
                 id_postulacion INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -106,7 +102,6 @@ class AppDataBaseHelper(context: Context) :
             );
         """)
 
-        // 7) Favoritos
         db.execSQL("""
             CREATE TABLE favorito (
                 id_usuario INTEGER NOT NULL,
@@ -117,9 +112,17 @@ class AppDataBaseHelper(context: Context) :
             );
         """)
 
-        // Índices
         db.execSQL("CREATE INDEX idx_oferta_categoria ON oferta(categoria);")
         db.execSQL("CREATE INDEX idx_oferta_vigente ON oferta(vigente);")
+
+        // Sembrar categorías iniciales
+        val categorias = listOf(
+            "Desarrollo Web", "Diseño Gráfico", "Marketing Digital",
+            "Administración", "Recursos Humanos"
+        )
+        categorias.forEach { nombre ->
+            db.execSQL("INSERT INTO categoria (nombre) VALUES ('$nombre');")
+        }
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -133,110 +136,121 @@ class AppDataBaseHelper(context: Context) :
         onCreate(db)
     }
 
-    //---------------------
-    // CATEGORÍA
-    //---------------------
+    // ------------------------------------
+    // CATEGORÍAS (Funciones de Categoría reubicadas)
+    // ------------------------------------
 
-    // 💡 CORRECCIÓN: El campo en la tabla es 'nombre', no 'descripcion'.
-    fun registrarCategorias(nombre: String): Boolean {
-        val db = this.writableDatabase
-        val values = ContentValues().apply {
-            put("nombre", nombre)
-        }
-        // Usar 'use' no es necesario aquí, pero se cierra al final.
-        val result = db.insert("categoria", null, values)
-        db.close()
-        return result != -1L
-    }
+//    fun insertarCategoria(nombre: String): Long {
+//        val db = writableDatabase
+//        val values = ContentValues().apply { put("nombre", nombre) }
+//        return try {
+//            db.insertOrThrow("categoria", null, values)
+//        } catch (e: Exception) {
+//            -1L
+//        }
+//    }
 
-    //---------------------
-    // OFERTAS LABORALES (MEJORADO)
-    //---------------------
+//    fun obtenerCategorias(): List<Pair<Int, String>> {
+//        val categorias = mutableListOf<Pair<Int, String>>()
+//        readableDatabase.rawQuery(
+//            "SELECT id_categoria, nombre FROM categoria ORDER BY nombre ASC", null
+//        ).use { cursor ->
+//            while (cursor.moveToNext()) {
+//                val id = cursor.getInt(cursor.getColumnIndexOrThrow("id_categoria"))
+//                val nombre = cursor.getString(cursor.getColumnIndexOrThrow("nombre"))
+//                categorias.add(Pair(id, nombre))
+//            }
+//        }
+//        return categorias
+//    }
+
+//    fun obtenerNombreCategoria(idCategoria: Int): String? {
+//        readableDatabase.rawQuery(
+//            "SELECT nombre FROM categoria WHERE id_categoria = ?",
+//            arrayOf(idCategoria.toString())
+//        ).use { cursor ->
+//            if (cursor.moveToFirst()) {
+//                return cursor.getString(cursor.getColumnIndexOrThrow("nombre"))
+//            }
+//        }
+//        return null
+//    }
+
+    // ------------------------------------
+    // OFERTAS LABORALES (Funciones de Oferta reubicadas)
+    // ------------------------------------
+
+//    fun registrarOferta(oferta: Oferta): Boolean {
+//        val db = writableDatabase
+//        val values = ContentValues().apply {
+//            put("empresa", oferta.empresa)
+//            put("titulo", oferta.titulo)
+//            put("descripcion", oferta.descripcion)
+//            put("salario_min", oferta.salario_min)
+//            put("salario_max", oferta.salario_max)
+//            put("modalidad", oferta.modalidad)
+//            put("tipo", oferta.tipo)
+//            put("ubicacion", oferta.ubicacion)
+//            put("categoria", oferta.categoria)
+//            put("vigente", oferta.vigente)
+//            put("detalle", oferta.detalle)
+//            put("icon_emp", oferta.icon_emp)
+//        }
+//
+//        return try {
+//            db.insert("oferta", null, values) != -1L
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            false
+//        }
+//    }
 
     /**
-     * Inserta una nueva oferta laboral en la tabla 'oferta'.
-     * @param oferta El objeto Oferta a registrar.
-     * @return true si la inserción fue exitosa (ID > -1), false en caso contrario.
+     * Función para obtener todas las ofertas de trabajo.
+     * @return Una lista de objetos Oferta ordenados por fecha de creación (los más recientes primero).
      */
-    fun registrarOferta(oferta: Oferta): Boolean {
-        // 💡 Usamos use() para asegurar que la base de datos se cierre automáticamente
-        this.writableDatabase.use { db ->
-            val values = ContentValues().apply {
-                // NOTA: 'id_oferta' se autoincrementa, no se incluye
-                put("titulo", oferta.titulo)
-                put("empresa", oferta.empresa)
-                put("descripcion", oferta.descripcion)
-                put("salario_min", oferta.salario_min)
-                put("salario_max", oferta.salario_max)
-                put("modalidad", oferta.modalidad)
-                put("tipo", oferta.tipo)
-                put("ubicacion", oferta.ubicacion)
-                // Asumo que 'categoria' es el ID (Int) de la categoría
-                put("categoria", oferta.categoria)
-                // Asumo que 'vigente' es un Int (1 o 0)
-                put("vigente", oferta.vigente)
-                put("detalle", oferta.detalle)
-                put("icon_emp", oferta.icon_emp)
-                // 'creado_en' usa el valor DEFAULT de la tabla (timestamp), no se incluye
-            }
-            val result = db.insert("oferta", null, values)
-            return result != -1L
-        }
+//    fun obtenerOfertas(): List<Oferta> {
+//        val lista = mutableListOf<Oferta>()
+//        readableDatabase.rawQuery(
+//            "SELECT * FROM oferta ORDER BY creado_en DESC",
+//            null
+//        ).use { cursor ->
+//            while (cursor.moveToNext()) {
+//                lista.add(cursorToOferta(cursor))
+//            }
+//        }
+//        return lista
+//    }
+
+//    fun obtenerOfertaPorId(idOferta: Int): Oferta? {
+//        readableDatabase.rawQuery(
+//            "SELECT * FROM oferta WHERE id_oferta = ?",
+//            arrayOf(idOferta.toString())
+//        ).use { cursor ->
+//            if (cursor.moveToFirst()) return cursorToOferta(cursor)
+//        }
+//        return null
+//    }
+
+    // ------------------------------------
+    // FUNCIONES AUXILIARES (Función auxiliar reubicada)
+    // ------------------------------------
+
+    private fun cursorToOferta(cursor: Cursor): Oferta {
+        return Oferta(
+            idOferta = cursor.getInt(cursor.getColumnIndexOrThrow("id_oferta")),
+            empresa = cursor.getString(cursor.getColumnIndexOrThrow("empresa")),
+            titulo = cursor.getString(cursor.getColumnIndexOrThrow("titulo")),
+            descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
+            salario_min = cursor.getDouble(cursor.getColumnIndexOrThrow("salario_min")),
+            salario_max = cursor.getDouble(cursor.getColumnIndexOrThrow("salario_max")),
+            modalidad = cursor.getString(cursor.getColumnIndexOrThrow("modalidad")),
+            tipo = cursor.getString(cursor.getColumnIndexOrThrow("tipo")),
+            ubicacion = cursor.getString(cursor.getColumnIndexOrThrow("ubicacion")),
+            categoria = cursor.getInt(cursor.getColumnIndexOrThrow("categoria")),
+            vigente = cursor.getInt(cursor.getColumnIndexOrThrow("vigente")),
+            detalle = cursor.getString(cursor.getColumnIndexOrThrow("detalle")),
+            icon_emp = cursor.getString(cursor.getColumnIndexOrThrow("icon_emp"))
+        )
     }
-    fun obtenerOfertas(): List<Oferta> {
-        val ofertasList = mutableListOf<Oferta>()
-        // Usamos readableDatabase para solo leer datos
-        this.readableDatabase.use { db ->
-            // Consulta SQL para obtener todos los campos de la tabla 'oferta'
-            val cursor = db.rawQuery("SELECT * FROM oferta ORDER BY creado_en DESC", null)
-
-            // Usamos use para asegurar que el Cursor se cierre automáticamente
-            cursor.use {
-                if (it.moveToFirst()) {
-                    do {
-                        // Mapeo manual de columnas a propiedades del data class Oferta
-                        val idOferta = it.getInt(it.getColumnIndexOrThrow("id_oferta"))
-                        val titulo = it.getString(it.getColumnIndexOrThrow("titulo"))
-                        val empresa = it.getString(it.getColumnIndexOrThrow("empresa"))
-                        val descripcion = it.getString(it.getColumnIndexOrThrow("descripcion"))
-                        val salarioMin = it.getDouble(it.getColumnIndexOrThrow("salario_min"))
-                        val salarioMax = it.getDouble(it.getColumnIndexOrThrow("salario_max"))
-                        val modalidad = it.getString(it.getColumnIndexOrThrow("modalidad"))
-                        val tipo = it.getString(it.getColumnIndexOrThrow("tipo"))
-                        val ubicacion = it.getString(it.getColumnIndexOrThrow("ubicacion"))
-                        val categoria = it.getInt(it.getColumnIndexOrThrow("categoria"))
-                        val vigente = it.getInt(it.getColumnIndexOrThrow("vigente"))
-                        val detalle = it.getString(it.getColumnIndexOrThrow("detalle"))
-                        val iconEmpresa = it.getString(it.getColumnIndexOrThrow("icon_emp"))
-                        // Nota: Se omiten 'creado_en' por simplicidad
-
-                        val oferta = Oferta(
-                            // 💡 Se necesita añadir 'idOferta' a tu data class Oferta para este método
-                            idOferta = idOferta,
-                            titulo = titulo,
-                            empresa = empresa,
-                            descripcion = descripcion,
-                            salario_min = salarioMin,
-                            salario_max = salarioMax,
-                            modalidad = modalidad,
-                            tipo = tipo,
-                            ubicacion = ubicacion,
-                            categoria = categoria,
-                            vigente = vigente,
-                            detalle = detalle,
-                            icon_emp = iconEmpresa
-                        )
-                        ofertasList.add(oferta)
-                    } while (it.moveToNext())
-                }
-            }
-        }
-        return ofertasList
-    }
-
-
-
-
-
-
 }

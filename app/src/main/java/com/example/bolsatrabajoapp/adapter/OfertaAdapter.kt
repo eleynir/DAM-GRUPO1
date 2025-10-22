@@ -1,67 +1,40 @@
-package com.example.bolsatrabajoapp
+package com.example.bolsatrabajoapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bolsatrabajoapp.databinding.ItemOfertaBinding
+import com.example.bolsatrabajoapp.R
 import com.example.bolsatrabajoapp.entity.Oferta
-import java.text.NumberFormat
-import java.util.*
 
-class OfertasAdapter(
-    private val ofertas: List<Oferta>,
-    private val clickListener: OnItemClickListener
-) : RecyclerView.Adapter<OfertasAdapter.OfertaViewHolder>() {
+class OfertaAdapter(private val listaOfertas: MutableList<Oferta>) :
+    RecyclerView.Adapter<OfertaAdapter.OfertaViewHolder>() {
 
-    // Define la interfaz para manejar el clic
-    interface OnItemClickListener {
-        fun onItemClick(oferta: Oferta)
-    }
-
-    // Formateador de moneda (ajustar Locale si es necesario)
-    private val currencyFormatter: NumberFormat = NumberFormat.getCurrencyInstance(Locale("es", "PE")).apply {
-        maximumFractionDigits = 0
-    }
-
-    inner class OfertaViewHolder(private val binding: ItemOfertaBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(oferta: Oferta) {
-            binding.apply {
-                // Título y Empresa
-                tvTitulo.text = oferta.titulo
-                tvEmpresa.text = oferta.empresa
-
-                // Ubicación y Modalidad
-                tvUbicacion.text = oferta.ubicacion
-                tvModalidad.text = oferta.modalidad
-
-                // Salario
-                val salarioMinFormatted = currencyFormatter.format(oferta.salario_min)
-                val salarioMaxFormatted = currencyFormatter.format(oferta.salario_max)
-                tvSalario.text = "$salarioMinFormatted - $salarioMaxFormatted"
-
-                // Icono (Puedes usar Glide o Picasso para cargar el iconoEmpresa real)
-                // Por ahora, solo se usa el drawable por defecto del XML si la imagen es remota.
-
-                // Manejo del click en el item
-                itemView.setOnClickListener {
-                    clickListener.onItemClick(oferta)
-                }
-            }
-        }
+    inner class OfertaViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val ivIconEmpresa: ImageView = itemView.findViewById(R.id.ivIconEmpresa)
+        val tvTitulo: TextView = itemView.findViewById(R.id.tvTitulo)
+        val tvEmpresa: TextView = itemView.findViewById(R.id.tvEmpresa)
+        val tvUbicacion: TextView = itemView.findViewById(R.id.tvUbicacion)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OfertaViewHolder {
-        val binding = ItemOfertaBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
-        return OfertaViewHolder(binding)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_oferta, parent, false)
+        return OfertaViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: OfertaViewHolder, position: Int) {
-        holder.bind(ofertas[position])
+        val oferta = listaOfertas[position]
+        holder.tvTitulo.text = oferta.titulo
+        holder.tvEmpresa.text = oferta.empresa
+        holder.tvUbicacion.text = oferta.ubicacion
+
+        // Si tienes un icono guardado, podrías mostrarlo aquí
+        // (por ahora solo usamos un ícono fijo)
+        holder.ivIconEmpresa.setImageResource(com.example.bolsatrabajoapp.R.drawable.ic_business)
     }
 
-    override fun getItemCount(): Int = ofertas.size
+    override fun getItemCount(): Int = listaOfertas.size
 }

@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="192dp"
+    android:minHeight="200dp"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="?attr/colorSurfaceVariant">
+    android:gravity="center_vertical"
+    android:padding="24dp"
+    android:background="?attr/colorPrimaryContainer">
 
     <ImageView
         android:id="@+id/ivAvatar"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:src="@drawable/ic_person"
         android:background="@drawable/elipse"
-        android:padding="10dp"
+        android:padding="12dp"
         android:contentDescription="Avatar" />
 
     <TextView
@@ -22,8 +23,9 @@
         android:layout_height="wrap_content"
         android:text="Usuario"
         android:textStyle="bold"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"
+        android:textSize="18sp"
+        android:layout_marginTop="12dp"
+        android:textColor="?attr/colorOnPrimaryContainer"
         android:maxLines="1"
         android:ellipsize="end"/>
 
@@ -33,7 +35,7 @@
         android:layout_height="wrap_content"
         android:text="usuario@correo.com"
         android:textSize="14sp"
-        android:layout_marginTop="2dp"
+        android:textColor="?attr/colorOnPrimaryContainer"
         android:maxLines="1"
         android:ellipsize="end"/>
 
@@ -44,6 +46,6 @@
         android:text="Postulante"
         android:textSize="13sp"
         android:textStyle="italic"
-        android:layout_marginTop="2dp"
-        android:textColor="?attr/colorPrimary" />
+        android:textColor="?attr/colorPrimary"
+        android:layout_marginTop="4dp" />
 </LinearLayout>

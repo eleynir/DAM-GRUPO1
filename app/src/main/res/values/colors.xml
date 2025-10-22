@@ -9,5 +9,6 @@
     <color name="purple_50">#F3E5F5</color>
     <color name="purple_800">#800080</color>
     <color name="gray_light">#d3d3d3 </color>
+    <color name="red">#F44336</color>
 
 </resources>

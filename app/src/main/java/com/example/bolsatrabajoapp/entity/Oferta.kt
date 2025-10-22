@@ -1,7 +1,9 @@
 package com.example.bolsatrabajoapp.entity
 
-data   class Oferta(
-    // id_oferta se genera en la BD, no es necesario para insertar
+/**
+ * Data class que representa la tabla 'oferta' de la base de datos.
+ */
+data class Oferta(
     val idOferta: Int = 0,
     val empresa: String,
     val titulo: String,
@@ -10,9 +12,9 @@ data   class Oferta(
     val salario_max: Double,
     val modalidad: String,
     val tipo: String,
+    val categoria: Int,
     val ubicacion: String,
-    val categoria: Int, // Debe ser el ID de la categoría
-    val vigente: Int = 1, // Valor por defecto para una nueva oferta
-    val detalle: String? = null,
+    val vigente: Int = 1,
+    val detalle: String?,
     val icon_emp: String? = null
 )

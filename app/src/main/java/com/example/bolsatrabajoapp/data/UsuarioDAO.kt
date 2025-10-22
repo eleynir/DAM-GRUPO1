@@ -3,15 +3,10 @@ package com.example.bolsatrabajoapp.data
 import android.content.ContentValues
 import android.content.Context
 import com.example.bolsatrabajoapp.entity.Usuario
-
-
-
-
+import java.lang.Exception // No se usa directamente, pero se mantiene por si acaso
 
 class UsuarioDAO(context: Context) {
     private val helper = AppDataBaseHelper(context)
-
-
 
     // Acá se registrará al usuario + sus datos extra según rol. Devolverá id del usuario o -1 si falló.
     fun insertar(
@@ -29,7 +24,7 @@ class UsuarioDAO(context: Context) {
                 put("clave", u.clave)
                 put("nombres", u.nombres)
                 put("apellidos", u.apellidos)
-                put("dni", "")
+                // ✅ DNI eliminado
                 put("celular", u.celular)
                 put("sexo", u.sexo)
                 put("edad", u.edad)
@@ -77,6 +72,7 @@ class UsuarioDAO(context: Context) {
             arrayOf(correo, clave)
         ).use { c ->
             if (c.moveToFirst()) {
+                // ✅ Mapeo de índices restaurado a la versión sin DNI
                 return Usuario(
                     idUsuario = c.getLong(0),
                     nombres   = c.getString(1),
@@ -101,6 +97,4 @@ class UsuarioDAO(context: Context) {
             arrayOf(correo)
         ).use { c -> return c.moveToFirst() }
     }
-
-
 }
