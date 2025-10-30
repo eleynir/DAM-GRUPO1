@@ -65,6 +65,7 @@ abstract class BaseDrawerActivity : AppCompatActivity() {
                 R.id.nav_perfil   -> goIfNotCurrent(PerfilActivity::class.java)
                 R.id.nav_listado  -> goIfNotCurrent(ListadoOfertasActivity::class.java)
                 R.id.nav_publicar -> goIfNotCurrent(PublicarOfertaActivity::class.java)
+                R.id.nav_home -> goIfNotCurrent(HomeActivity::class.java)
                 R.id.nav_logout   -> {
                     getSharedPreferences("user", MODE_PRIVATE).edit().clear().apply()
                     startActivity(Intent(this, AccesoActivity::class.java)

@@ -14,7 +14,7 @@ import com.google.android.material.appbar.MaterialToolbar
 class HomeActivity : BaseDrawerActivity() {
 
     override fun getLayoutResId() = R.layout.activity_home
-    override fun navSelectedItemId() = R.id.nav_listado
+    override fun navSelectedItemId() = R.id.nav_home
     override fun screenTitle() = "Inicio"
 
     override fun onCreate(savedInstanceState: Bundle?) {

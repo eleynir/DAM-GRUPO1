@@ -2,13 +2,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FAF7FF">
 
     <LinearLayout
         android:orientation="vertical"
-        android:padding="20dp"
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
 
         <TextView
             android:id="@+id/tvBienvenida"
@@ -16,16 +18,20 @@
             android:layout_height="wrap_content"
             android:text="Bienvenido a Emplea+"
             android:textStyle="bold"
-            android:textSize="22sp"/>
+            android:textSize="20sp"
+            android:textColor="@color/emplo_text"/>
 
         <TextView
             android:id="@+id/tvMensajeRol"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Explora lo nuevo para ti."
-            android:layout_marginBottom="16dp"/>
+            android:textSize="13sp"
+            android:textColor="#7A6E8C"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="8dp"/>
 
-        <!-- ========= Sección POSTULANTE ========= -->
+        <!-- ========= POSTULANTE ========= -->
         <LinearLayout
             android:id="@+id/sectionPostulante"
             android:layout_width="match_parent"
@@ -35,30 +41,41 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_marginTop="8dp"
+                app:cardUseCompatPadding="true"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="5dp">
+                app:cardElevation="2dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E7E0F8">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:padding="16dp"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ofertas recientes"
                         android:textStyle="bold"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:textColor="@color/emplo_text"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Descubre las últimas vacantes disponibles."
+                        android:textSize="13sp"
+                        android:textColor="#7A6E8C"
                         android:layout_marginTop="4dp"/>
 
-                    <!--cambiarlo por un RecyclerView  -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/divider_dashed"/>
+
                     <LinearLayout
                         android:id="@+id/previewOfertas"
                         android:layout_width="match_parent"
@@ -66,152 +83,203 @@
                         android:orientation="vertical"
                         android:layout_marginTop="10dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="• DevOps Jr — Emplea Inc. (S/ 1800)"/>
-                        <TextView
-                            android:layout_width="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="6dp">
+                            <View
+                                android:layout_width="6dp"
+                                android:layout_height="6dp"
+                                android:background="@drawable/dot_bullet"
+                                android:layout_marginTop="7dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:text="DevOps Jr — Emplea Inc. (S/ 1800)"
+                                android:textColor="@color/emplo_text"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="• Ayudante de cocina — Cibertec (S/ 1550)"/>
+                            android:orientation="horizontal">
+                            <View
+                                android:layout_width="6dp"
+                                android:layout_height="6dp"
+                                android:background="@drawable/dot_bullet"
+                                android:layout_marginTop="7dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="8dp"
+                                android:text="Ayudante de cocina — Cibertec (S/ 1550)"
+                                android:textColor="@color/emplo_text"/>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <Button
                         android:id="@+id/btnVerTodas"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="12dp"
                         android:text="Ver todas"
-                        android:layout_marginTop="10dp"/>
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:background="@drawable/btn_primary_small"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:cardUseCompatPadding="true"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="5dp">
+                app:cardElevation="2dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E7E0F8">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:padding="12dp"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tu perfil"
+                        android:text="Accesos rápidos"
                         android:textStyle="bold"
-                        android:textSize="18sp"/>
+                        android:textSize="16sp"
+                        android:textColor="@color/emplo_text"
+                        android:layout_marginBottom="6dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipsAccesos"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Completa tu información para destacar."
-                        android:layout_marginTop="4dp"/>
+                        app:singleLine="true"
+                        app:singleSelection="false">
 
-                    <Button
-                        android:id="@+id/btnIrPerfil"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ver/editar perfil"
-                        android:layout_marginTop="10dp"/>
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.Material3.Chip.Assist"
+                            android:id="@+id/chipGuardados"
+                            android:text="Guardados"
+                            app:chipIcon="@drawable/ic_list"/>
+
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.Material3.Chip.Assist"
+                            android:id="@+id/chipPostulaciones"
+                            android:text="Mis postulaciones"
+                            app:chipIcon="@drawable/ic_work"/>
+
+                        <com.google.android.material.chip.Chip
+                            style="@style/Widget.Material3.Chip.Assist"
+                            android:id="@+id/chipFiltros"
+                            android:text="Filtrar ofertas"
+                            app:chipIcon="@drawable/ic_add"/>
+                    </com.google.android.material.chip.ChipGroup>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- ========= Sección EMPRESA ========= -->
         <LinearLayout
             android:id="@+id/sectionEmpresa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:orientation="vertical">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_marginTop="8dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="5dp">
+                app:cardElevation="2dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E7E0F8">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:padding="16dp"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tus publicaciones"
+                        android:text="Resumen"
                         android:textStyle="bold"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:textColor="@color/emplo_text"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Gestiona y revisa el estado de tus vacantes."
-                        android:layout_marginTop="4dp"/>
-
-                    <!-- últimos 2 avisos -->
-                    <LinearLayout
-                        android:id="@+id/previewMisOfertas"
+                        android:id="@+id/tvResumenEmpresa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="10dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="• Diseñador UI (10 postulantes)"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="• QA Jr (3 postulantes)"/>
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/btnIrMisOfertas"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Ver todas"
-                        android:layout_marginTop="10dp"/>
+                        android:text="2 ofertas activas • 13 postulantes nuevos"
+                        android:textColor="#7A6E8C"
+                        android:layout_marginTop="4dp"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <Button
+                android:id="@+id/btnPublicar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:text="Publicar oferta"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:background="@drawable/btn_primary"/>
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="5dp">
+                app:cardElevation="2dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="#E7E0F8">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:padding="16dp"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nueva vacante"
+                        android:text="Postulantes recientes"
                         android:textStyle="bold"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:textColor="@color/emplo_text"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/previewPostulantes"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Publica una nueva oportunidad de empleo."
-                        android:layout_marginTop="4dp"/>
+                        android:orientation="vertical"
+                        android:layout_marginTop="8dp">
 
-                    <Button
-                        android:id="@+id/btnPublicarRapido"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Publicar ahora"
-                        android:layout_marginTop="10dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="• Ana P. — Diseñador UI (portafolio)"
+                            android:textColor="@color/emplo_text"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="• Luis M. — QA Jr (3 años)"
+                            android:textColor="@color/emplo_text"/>
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

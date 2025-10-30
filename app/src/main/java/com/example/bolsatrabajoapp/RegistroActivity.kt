@@ -10,9 +10,12 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import android.net.Uri
+import androidx.activity.result.contract.ActivityResultContracts
+import android.database.Cursor
+import android.provider.OpenableColumns
 
 class RegistroActivity : AppCompatActivity() {
 
@@ -37,6 +40,32 @@ class RegistroActivity : AppCompatActivity() {
     private lateinit var cbAcepto: android.widget.CheckBox
     private lateinit var btnEnviar: Button
     private lateinit var tvRegreso: TextView
+
+    private var cvUriString: String? = null
+
+    private val pickPdf =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+            if (uri != null) {
+                contentResolver.takePersistableUriPermission(
+                    uri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+                cvUriString = uri.toString()
+
+                findViewById<TextView>(R.id.tvCvNombre)?.text = getDisplayName(uri)
+                Toast.makeText(this, "CV adjuntado", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    private fun getDisplayName(uri: Uri): String {
+        var name = "cv.pdf"
+        contentResolver.query(uri, null, null, null, null)?.use { cursor: Cursor ->
+            val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            if (nameIndex >= 0 && cursor.moveToFirst()) {
+                name = cursor.getString(nameIndex)
+            }
+        }
+        return name
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,9 +111,8 @@ class RegistroActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: android.widget.AdapterView<*>?) {}
         })
 
-        // adjuntar CV: en demo
         btnAdjuntarCV.setOnClickListener {
-            Toast.makeText(this, "Adjuntar CV (pendiente implementar)", Toast.LENGTH_SHORT).show()
+            pickPdf.launch(arrayOf("application/pdf"))
         }
 
         btnEnviar.setOnClickListener {
@@ -128,13 +156,17 @@ class RegistroActivity : AppCompatActivity() {
                 )
 
                 if (id > 0) {
-                    // guarda en prefs lo básico para el header y entra a Home
-                    val prefs = getSharedPreferences("user", MODE_PRIVATE)
-                    prefs.edit()
-                        .putString("name", "$nombre $apellidos")
-                        .putString("email", correo)
-                        .putString("rol", rolDb)
-                        .apply()
+                    val prefs = getSharedPreferences("user", MODE_PRIVATE).edit()
+                    prefs.putLong("id_usuario", id)
+                    prefs.putString("name", "$nombre $apellidos")
+                    prefs.putString("email", correo)
+                    prefs.putString("rol", rolDb)
+                    prefs.apply()
+
+                    if (rolDb == "POSTULANTE" && cvUriString != null) {
+                        com.example.bolsatrabajoapp.data.PostulanteDAO(this)
+                            .actualizarCvUrl(id, cvUriString!!)
+                    }
 
                     Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, HomeActivity::class.java))

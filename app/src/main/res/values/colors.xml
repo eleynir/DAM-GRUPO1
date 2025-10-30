@@ -3,4 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#1D4284</color>
+    <color name="emplo_purple">#6D3CC3</color>
+    <color name="emplo_purple_100">#F4E9FF</color>
+    <color name="emplo_purple_200">#E8D9FF</color>
+    <color name="emplo_yellow">#F4A700</color>
+    <color name="emplo_text">#363A3D</color>
+    <color name="emplo_hint">#7A7F85</color>
 </resources>

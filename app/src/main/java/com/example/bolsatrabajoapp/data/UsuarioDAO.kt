@@ -93,7 +93,33 @@ class UsuarioDAO(context: Context) {
         return null
     }
 
-    // validación si ya existe el correo en la bd
+    fun obtenerPorId(id: Long): Usuario? {
+        val db = helper.readableDatabase
+        db.rawQuery(
+            """
+        SELECT id_usuario, nombres, apellidos, correo, clave, edad, celular, sexo, rol
+        FROM usuario
+        WHERE id_usuario = ?
+        """.trimIndent(),
+            arrayOf(id.toString())
+        ).use { c ->
+            if (c.moveToFirst()) {
+                return Usuario(
+                    idUsuario = c.getLong(0),
+                    nombres   = c.getString(1),
+                    apellidos = c.getString(2),
+                    correo    = c.getString(3),
+                    clave     = c.getString(4),
+                    edad      = if (c.isNull(5)) null else c.getInt(5),
+                    celular   = if (c.isNull(6)) null else c.getString(6),
+                    sexo      = if (c.isNull(7)) null else c.getString(7),
+                    rol       = c.getString(8)
+                )
+            }
+        }
+        return null
+    }
+
     fun existeCorreo(correo: String): Boolean {
         val db = helper.readableDatabase
         db.rawQuery(

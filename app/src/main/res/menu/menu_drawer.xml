@@ -1,5 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:title="Inicio"
+            android:icon="@drawable/ic_home"
+            android:orderInCategory="0" />
+
         <item
             android:id="@+id/nav_listado"
             android:title="Ver ofertas"

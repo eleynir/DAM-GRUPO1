@@ -110,6 +110,7 @@
             if (usuario != null) {
                 val prefs = getSharedPreferences("user", MODE_PRIVATE)
                 prefs.edit()
+                    .putLong("id_usuario", usuario.idUsuario ?: -1L)
                     .putString("name", "${usuario.nombres} ${usuario.apellidos}")
                     .putString("email", usuario.correo)
                     .putString("rol", usuario.rol)
