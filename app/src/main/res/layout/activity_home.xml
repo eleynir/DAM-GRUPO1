@@ -159,31 +159,6 @@
                         android:textColor="@color/emplo_text"
                         android:layout_marginBottom="6dp"/>
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chipsAccesos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:singleLine="true"
-                        app:singleSelection="false">
-
-                        <com.google.android.material.chip.Chip
-                            style="@style/Widget.Material3.Chip.Assist"
-                            android:id="@+id/chipGuardados"
-                            android:text="Guardados"
-                            app:chipIcon="@drawable/ic_list"/>
-
-                        <com.google.android.material.chip.Chip
-                            style="@style/Widget.Material3.Chip.Assist"
-                            android:id="@+id/chipPostulaciones"
-                            android:text="Mis postulaciones"
-                            app:chipIcon="@drawable/ic_work"/>
-
-                        <com.google.android.material.chip.Chip
-                            style="@style/Widget.Material3.Chip.Assist"
-                            android:id="@+id/chipFiltros"
-                            android:text="Filtrar ofertas"
-                            app:chipIcon="@drawable/ic_add"/>
-                    </com.google.android.material.chip.ChipGroup>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

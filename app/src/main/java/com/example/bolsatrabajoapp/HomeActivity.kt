@@ -2,14 +2,11 @@ package com.example.bolsatrabajoapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.appbar.MaterialToolbar
+import android.widget.LinearLayout
+import com.google.android.material.chip.Chip
+
 
 class HomeActivity : BaseDrawerActivity() {
 
@@ -20,39 +17,23 @@ class HomeActivity : BaseDrawerActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val prefs = getSharedPreferences("user", MODE_PRIVATE)
-        val rol = prefs.getString("rol", "POSTULANTE") // "POSTULANTE" o "EMPRESA"
-        val nombre = prefs.getString("name", "Usuario")
+        val rol = getSharedPreferences("user", MODE_PRIVATE)
+            .getString("rol", "POSTULANTE") ?: "POSTULANTE"
+        val esPost = rol.equals("POSTULANTE", true)
 
-        val tvBienvenida = findViewById<TextView>(R.id.tvBienvenida)
-        val tvMensajeRol = findViewById<TextView>(R.id.tvMensajeRol)
-        val secPost = findViewById<View>(R.id.sectionPostulante)
-        val secEmp  = findViewById<View>(R.id.sectionEmpresa)
+        val sectionPost = findViewById<LinearLayout?>(R.id.sectionPostulante)
+        val sectionEmp  = findViewById<LinearLayout?>(R.id.sectionEmpresa)
 
-        tvBienvenida.text = "Hola, $nombre "
-        if (rol == "EMPRESA") {
-            tvMensajeRol.text = "Gestiona tus vacantes y encuentra talento."
-            secPost.visibility = View.GONE
-            secEmp.visibility = View.VISIBLE
-        } else {
-            tvMensajeRol.text = "Explora ofertas y mejora tu perfil."
-            secPost.visibility = View.VISIBLE
-            secEmp.visibility = View.GONE
-        }
+        sectionPost?.visibility = if (esPost) View.VISIBLE else View.GONE
+        sectionEmp?.visibility  = if (esPost) View.GONE else View.VISIBLE
 
-        // Navegaciones
-        findViewById<Button>(R.id.btnVerTodas).setOnClickListener {
+        findViewById<Button?>(R.id.btnVerTodas)?.setOnClickListener {
             startActivity(Intent(this, ListadoOfertasActivity::class.java))
         }
-        findViewById<Button>(R.id.btnIrPerfil).setOnClickListener {
-            startActivity(Intent(this, PerfilActivity::class.java))
-        }
-        findViewById<Button>(R.id.btnIrMisOfertas).setOnClickListener {
-            // reutilizar ListadoOfertasActivity con un filtro por empresa más adelante
-            startActivity(Intent(this, ListadoOfertasActivity::class.java))
-        }
-        findViewById<Button>(R.id.btnPublicarRapido).setOnClickListener {
+
+        findViewById<Button?>(R.id.btnPublicar)?.setOnClickListener {
             startActivity(Intent(this, PublicarOfertaActivity::class.java))
         }
+
     }
 }
