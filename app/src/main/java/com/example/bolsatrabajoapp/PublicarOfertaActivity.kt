@@ -96,7 +96,7 @@ class PublicarOfertaActivity : BaseDrawerActivity() {
                 modalidad    = modalidad,
                 tipo         = tipo,
                 ubicacion    = ubic,
-                categoria    = categoriaId,  // TODO: cambiar por id real
+                categoria    = categoriaId,
                 vigente      = 1,
                 detalle      = desc,
                 iconEmpresa  = ""
