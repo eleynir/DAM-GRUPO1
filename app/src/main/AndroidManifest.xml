@@ -36,6 +36,14 @@
             android:name=".PerfilActivity"
             />
         <activity
+            android:name=".OfertaDetalleActivity"
+            android:exported="false"
+            android:parentActivityName=".ListadoOfertasActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ListadoOfertasActivity" />
+        </activity>
+        <activity
             android:name=".AccesoActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize"
@@ -46,6 +54,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

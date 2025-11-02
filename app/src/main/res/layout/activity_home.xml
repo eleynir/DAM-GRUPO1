@@ -170,39 +170,6 @@
             android:visibility="gone"
             android:orientation="vertical">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#E7E0F8">
-
-                <LinearLayout
-                    android:padding="16dp"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Resumen"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:textColor="@color/emplo_text"/>
-
-                    <TextView
-                        android:id="@+id/tvResumenEmpresa"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="2 ofertas activas • 13 postulantes nuevos"
-                        android:textColor="#7A6E8C"
-                        android:layout_marginTop="4dp"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
             <Button
                 android:id="@+id/btnPublicar"
                 android:layout_width="match_parent"
@@ -257,6 +224,37 @@
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvFeedTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Actividad reciente"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="@color/emplo_text"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="6dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvFeed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/tvFeedEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aún no hay actividad reciente"
+                android:gravity="center"
+                android:textColor="#7A6E8C"
+                android:padding="10dp"
+                android:visibility="gone"/>
         </LinearLayout>
+
+
     </LinearLayout>
+
 </ScrollView>

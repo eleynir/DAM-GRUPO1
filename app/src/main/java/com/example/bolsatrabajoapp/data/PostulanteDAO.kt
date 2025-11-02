@@ -33,6 +33,34 @@ class PostulanteDAO(ctx: Context) {
         return null
     }
 
+    fun obtenerIdPostulantePorUsuario(idUsuario: Long): Long? {
+        val c = helper.readableDatabase.rawQuery(
+            "SELECT id_postulante FROM postulante WHERE id_usuario=?",
+            arrayOf(idUsuario.toString())
+        )
+        c.use { if (it.moveToFirst()) return it.getLong(0) }
+        return null
+    }
+
+    fun existePostulacion(idOferta: Int, idPostulante: Long): Boolean {
+        val c = helper.readableDatabase.rawQuery(
+            "SELECT 1 FROM postulacion WHERE id_oferta=? AND id_postulante=?",
+            arrayOf(idOferta.toString(), idPostulante.toString())
+        )
+        c.use { return it.moveToFirst() }
+    }
+
+    fun crearPostulacion(idOferta: Int, idPostulante: Long): Long {
+        val cv = ContentValues().apply {
+            put("id_oferta", idOferta)
+            put("id_postulante", idPostulante)
+            put("estado", "ENVIADA")
+        }
+        return helper.writableDatabase.insert("postulacion", null, cv)
+    }
+
+
+
     fun actualizarResumen(idUsuario: Long, resumen: String?): Int {
         val db = helper.writableDatabase
         val cv = ContentValues().apply { put("resumen", resumen) }

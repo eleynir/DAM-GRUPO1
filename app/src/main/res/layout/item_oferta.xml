@@ -1,54 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="14dp"
-    app:cardBackgroundColor="@color/white"
-    app:cardElevation="4dp">
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginVertical="6dp"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:strokeColor="#E9E4F7"
+    app:strokeWidth="1dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <LinearLayout
-        android:padding="12dp"
+        android:padding="14dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_width="wrap_content"
             android:id="@+id/iconEmpresa"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@mipmap/ic_launcher_round"
-            />
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/bg_circle_soft"
+            android:padding="6dp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_weight="1">
+
             <TextView
                 android:id="@+id/tvTitulo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Título"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:text="Título"/>
+                android:textColor="@color/emplo_text" />
 
             <TextView
                 android:id="@+id/tvEmpresa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Empresa"
-                android:layout_marginTop="2dp"/>
+                android:textSize="13sp"
+                android:textColor="#7A6E8C"
+                android:layout_marginTop="2dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/tvModalidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remoto"
+                    android:textSize="12sp"
+                    android:textColor="#5C4BA8"
+                    android:background="@drawable/pill_soft"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="3dp" />
+
+                <Space
+                    android:layout_width="8dp"
+                    android:layout_height="1dp" />
+
+                <TextView
+                    android:id="@+id/tvUbicacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="San Isidro"
+                    android:textSize="12sp"
+                    android:textColor="#5C4BA8"
+                    android:background="@drawable/pill_soft"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="3dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvSueldo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="S/ 0.00"
-                android:layout_marginTop="6dp"/>
-
+                android:textStyle="bold"
+                android:textColor="#2E1F87"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
-
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

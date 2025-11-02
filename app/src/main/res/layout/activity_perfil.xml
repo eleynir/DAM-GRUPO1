@@ -285,13 +285,7 @@
                 android:layout_height="wrap_content"
                 android:text="Editar" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnGuardar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Guardar"
-                android:enabled="false" />
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipos_empleo">
+        <item>TIEMPO_COMPLETO</item>
+        <item>MEDIO_TIEMPO</item>
+        <item>PRACTICAS</item>
+    </string-array>
+
+    <string-array name="categorias_empleo">
+        <item>Tecnología</item>
+        <item>Administración</item>
+        <item>Ventas</item>
+        <item>Atención al cliente</item>
+        <item>Cocina</item>
+    </string-array>
+</resources>

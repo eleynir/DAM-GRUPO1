@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 private const val DB_NAME = "emplea.db"
-private const val DB_VERSION = 1
+private const val DB_VERSION = 2
 
 class AppDataBaseHelper(context: Context) :
     SQLiteOpenHelper(context, DB_NAME, null, DB_VERSION) {
@@ -66,6 +66,8 @@ class AppDataBaseHelper(context: Context) :
                 nombre       TEXT NOT NULL UNIQUE
             );
         """.trimIndent())
+
+        db.execSQL("INSERT INTO categoria(nombre) VALUES ('General'),('Tecnología'),('Administración'),('Ventas');")
 
 
         // 5) Oferta Guardamos FK a empresa y además el nombre visible 'empresa_nombre' para evitar

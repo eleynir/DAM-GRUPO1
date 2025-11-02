@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Cabecera -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,17 +47,20 @@
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipModalidad"
                         style="@style/Widget.Material3.Chip.Assist.Elevated"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="Remoto" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipSalario"
                         style="@style/Widget.Material3.Chip.Assist.Elevated"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="S/ 0.00" />
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Descripción -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,7 +76,6 @@
             android:text="(pendiente)"
             android:layout_marginTop="4dp"/>
 
-        <!-- Botón -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPostular"
             android:layout_width="match_parent"

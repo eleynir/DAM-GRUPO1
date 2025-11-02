@@ -1,16 +1,13 @@
 package com.example.bolsatrabajoapp
 
-import android.database.Cursor
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.GridLayoutManager
+import android.view.View
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bolsatrabajoapp.adapter.HistorialAdapter
-import com.example.bolsatrabajoapp.data.AppDataBaseHelper
+import com.example.bolsatrabajoapp.data.OfertaDAO
 import com.example.bolsatrabajoapp.entity.Oferta
 
 class ListadoOfertasActivity : BaseDrawerActivity() {
@@ -19,24 +16,36 @@ class ListadoOfertasActivity : BaseDrawerActivity() {
     override fun navSelectedItemId() = R.id.nav_listado
     override fun screenTitle() = "Ofertas disponibles"
 
-
-    private lateinit var rvHistorial: RecyclerView
-    private lateinit var historialAdapter: HistorialAdapter
-
+    private lateinit var rv: RecyclerView
+    private lateinit var tvEmpty: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        rvHistorial = findViewById(R.id.tvListaOferta)
-        rvHistorial.layoutManager = LinearLayoutManager(this)
+        rv = findViewById(R.id.tvListaOferta)
+        tvEmpty = findViewById(R.id.tvEmpty)
 
-        val oferta = listOf(
-            Oferta(1, "Dev Ops", "Emplea Inc.", "a",1200.20, 2400.00,"Hìbrido","Tiempo Completo","San Isidro",2 , 1,"d","url"),
-        )
+        rv.layoutManager = LinearLayoutManager(this)
 
-        historialAdapter = HistorialAdapter(oferta)
-        rvHistorial.adapter = historialAdapter
+        val dao = OfertaDAO(this)
+        val prefs = getSharedPreferences("user", MODE_PRIVATE)
+        val rol = prefs.getString("rol", "POSTULANTE") ?: "POSTULANTE"
+
+        val data: List<Oferta> = if (rol.equals("EMPRESA", true)) {
+            val idUsuario = prefs.getLong("id_usuario", -1L)
+            val idEmp = dao.obtenerIdEmpresaPorUsuario(idUsuario)
+            if (idEmp != null) dao.listarPorEmpresa(idEmp) else emptyList()
+        } else {
+            dao.listarActivas()
+        }
+
+        tvEmpty.visibility = if (data.isEmpty()) View.VISIBLE else View.GONE
+
+        val adapter = HistorialAdapter(data) { oferta ->
+            val i = Intent(this, OfertaDetalleActivity::class.java)
+            i.putExtra("id_oferta", oferta.idOferta)
+            startActivity(i)
+        }
+        rv.adapter = adapter
     }
-
-
 }

@@ -4,19 +4,17 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import com.example.bolsatrabajoapp.entity.Oferta
-import kotlin.String
-
 
 class OfertaDAO(context: Context) {
-    private val db = AppDataBaseHelper(context)
-
     private val dbHelper = AppDataBaseHelper(context)
 
-    private fun insertar(oferta : Oferta) : Long {
+
+    fun insertar(oferta: Oferta, idEmpresa: Long): Long {
         val db = dbHelper.writableDatabase
         val valores = ContentValues().apply {
+            put("id_empresa", idEmpresa)
+            put("empresa_nombre", oferta.empresa)
             put("titulo", oferta.titulo)
-            put("empresa", oferta.empresa)
             put("descripcion", oferta.descripcion)
             put("salario_min", oferta.salario_min)
             put("salario_max", oferta.salario_max)
@@ -24,42 +22,106 @@ class OfertaDAO(context: Context) {
             put("tipo", oferta.tipo)
             put("ubicacion", oferta.ubicacion)
             put("categoria", oferta.categoria)
-            put("vigente",oferta.vigente)
-            put("detalle",oferta.detalle)
-            put("icon_emp",oferta.iconEmpresa)
+            put("vigente", oferta.vigente)
+            put("detalle", oferta.detalle)
+            put("icon_empresa", oferta.iconEmpresa)
         }
-        return db.insert("oferta",null, valores)
+        return db.insert("oferta", null, valores)
     }
 
-    private fun obtenerOferta(idOferta: Int) : List<Oferta>{
+
+    fun obtenerIdEmpresaPorUsuario(idUsuario: Long): Long? {
         val db = dbHelper.readableDatabase
-        val lista = mutableListOf<Oferta>()
-        val cursor : Cursor = db.rawQuery(
-            "SELECT * FROM oferta WHERE id_oferta = ?",
+        val c = db.rawQuery(
+            "SELECT id_empresa FROM empresa WHERE id_usuario=?",
+            arrayOf(idUsuario.toString())
+        )
+        var id: Long? = null
+        c.use { if (it.moveToFirst()) id = it.getLong(0) }
+        return id
+    }
+
+
+    fun listarActivas(): List<Oferta> {
+        val sql = """
+            SELECT id_oferta, empresa_nombre, titulo, descripcion, salario_min, salario_max,
+                   modalidad, tipo, ubicacion, categoria, vigente, detalle, icon_empresa
+            FROM oferta
+            WHERE vigente=1
+            ORDER BY id_oferta DESC
+        """.trimIndent()
+        return mapearListado(sql, null)
+    }
+
+
+    fun listarPorEmpresa(idEmpresa: Long): List<Oferta> {
+        val sql = """
+            SELECT id_oferta, empresa_nombre, titulo, descripcion, salario_min, salario_max,
+                   modalidad, tipo, ubicacion, categoria, vigente, detalle, icon_empresa
+            FROM oferta
+            WHERE id_empresa=?
+            ORDER BY id_oferta DESC
+        """.trimIndent()
+        return mapearListado(sql, arrayOf(idEmpresa.toString()))
+    }
+
+    fun obtenerOferta(idOferta: Int): Oferta? {
+        val db = dbHelper.readableDatabase
+        val c: Cursor = db.rawQuery(
+            """
+            SELECT id_oferta, empresa_nombre, titulo, descripcion, salario_min, salario_max,
+                   modalidad, tipo, ubicacion, categoria, vigente, detalle, icon_empresa
+            FROM oferta
+            WHERE id_oferta=?
+            """.trimIndent(),
             arrayOf(idOferta.toString())
         )
-        while (cursor.moveToNext()) {
-            lista.add(
+        c.use {
+            return if (it.moveToFirst()) {
                 Oferta(
-                    idOferta = cursor.getInt(cursor.getColumnIndexOrThrow("id_oferta")),
-                    titulo = cursor.getString(cursor.getColumnIndexOrThrow("titulo")),
-                    empresa = cursor.getString(cursor.getColumnIndexOrThrow("id_empresa")),
-                    descripcion = cursor.getString(cursor.getColumnIndexOrThrow("descripcion")),
-                    salario_min = cursor.getDouble(cursor.getColumnIndexOrThrow("salario_min")),
-                    salario_max = cursor.getDouble(cursor.getColumnIndexOrThrow("salario_max")),
-                    modalidad = cursor.getString(cursor.getColumnIndexOrThrow("modalidad")),
-                    tipo = cursor.getString(cursor.getColumnIndexOrThrow("tipo")),
-                    ubicacion = cursor.getString(cursor.getColumnIndexOrThrow("ubicacion")),
-                    categoria = cursor.getInt(cursor.getColumnIndexOrThrow("categoria")),
-                    vigente = cursor.getInt(cursor.getColumnIndexOrThrow("vigente")),
-                    detalle = cursor.getString(cursor.getColumnIndexOrThrow("detalle")),
-                    iconEmpresa = cursor.getString(cursor.getColumnIndexOrThrow("icon_empresa")),
+                    idOferta     = it.getInt(0),
+                    empresa      = it.getString(1),
+                    titulo       = it.getString(2),
+                    descripcion  = it.getString(3),
+                    salario_min  = it.getDouble(4),
+                    salario_max  = it.getDouble(5),
+                    modalidad    = it.getString(6),
+                    tipo         = it.getString(7),
+                    ubicacion    = it.getString(8),
+                    categoria    = it.getInt(9),
+                    vigente      = it.getInt(10),
+                    detalle      = it.getString(11),
+                    iconEmpresa  = it.getString(12)
                 )
-            )
+            } else null
         }
-        cursor.close()
-        db.close()
+    }
+
+    private fun mapearListado(sql: String, args: Array<String>?): List<Oferta> {
+        val db = dbHelper.readableDatabase
+        val lista = mutableListOf<Oferta>()
+        val c = db.rawQuery(sql, args)
+        c.use {
+            while (it.moveToNext()) {
+                lista.add(
+                    Oferta(
+                        idOferta     = it.getInt(0),
+                        empresa      = it.getString(1),
+                        titulo       = it.getString(2),
+                        descripcion  = it.getString(3),
+                        salario_min  = it.getDouble(4),
+                        salario_max  = it.getDouble(5),
+                        modalidad    = it.getString(6),
+                        tipo         = it.getString(7),
+                        ubicacion    = it.getString(8),
+                        categoria    = it.getInt(9),
+                        vigente      = it.getInt(10),
+                        detalle      = it.getString(11),
+                        iconEmpresa  = it.getString(12)
+                    )
+                )
+            }
+        }
         return lista
     }
 }
-
